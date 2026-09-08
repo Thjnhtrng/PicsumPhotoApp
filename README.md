@@ -11,14 +11,13 @@ Các tính năng đã hoàn thành (Features)
 
 Clean Architecture
 Dự án chia làm 3 layer:
-Domain Layer: Entities & UseCases (Business Logic)
-Data Layer: DTOs & Repositories (Networking & Caching)
-Presentation Layer: Controllers & Views (UIKit UI)
+- Domain Layer: Entities & UseCases (Business Logic)
+- Data Layer: DTOs & Repositories (Networking & Caching)
+- Presentation Layer: Controllers & Views (UIKit UI)
 
 
 Hướng dẫn Build & Chạy dự án (Reviewer)
 Dự án sử dụng XcodeGen để tự động tạo file cấu hình .xcodeproj chuẩn định dạng.
-
 Cách 1: Sử dụng XcodeGen (Recommend)
 1. Cài đặt XcodeGen qua Homebrew trên máy Mac (nếu chưa cài):
 Bash
