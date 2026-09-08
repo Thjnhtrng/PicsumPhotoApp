@@ -18,6 +18,7 @@ Dự án chia làm 3 layer:
 
 Hướng dẫn Build & Chạy dự án (Reviewer)
 Dự án sử dụng XcodeGen để tự động tạo file cấu hình .xcodeproj chuẩn định dạng.
+
 Cách 1: Sử dụng XcodeGen (Recommend)
 1. Cài đặt XcodeGen qua Homebrew trên máy Mac (nếu chưa cài):
 Bash
