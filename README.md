@@ -1,3 +1,35 @@
-Picsum Photo List App (iOS)Ứng dụng hiển thị danh sách hình ảnh từ Picsum API. Dự án được xây dựng hoàn toàn bằng ngôn ngữ Swift (UIKit) native, tuân thủ kiến trúc Clean Architecture và không sử dụng thư viện thứ 3.  Tính năng chính (Features)Hiển thị hình ảnh: Hiện ảnh, tác giả và kích thước. Ảnh tự điều chỉnh tỉ lệ theo file gốc, không bị móp/biến dạng.  Phân trang (Paging): Tải 100 ảnh/trang, có indicator Loading... ở cuối danh sách.  Pull to Refresh: Vuốt đỉnh danh sách để làm mới dữ liệu.  Search & Validation: Tìm kiếm theo Author hoặc ID. Giới hạn tối đa 15 ký tự, tự động lọc bỏ tiếng Việt có dấu, emoji, ký tự đặc biệt khi gõ, Paste hoặc Swipe Typing.  Tối ưu hiệu năng: Dùng NSCache lưu ảnh tạm, mượt mà khi cuộn UITableView.  Unit Testing: Kiểm thử tự động cho SearchQueryValidator.  Kiến trúc (Clean Architecture)Domain Layer: Photo (Entity) & SearchQueryValidator (Business Logic).  Data Layer: PhotoDTO (Parse API) & ImageLoader (Async Download & NSCache).  Presentation Layer: PhotoListViewController & PhotoTableViewCell (Custom UI dynamic height).  Yêu cầu môi trường (Requirements)Deployment Target: iOS 12.0+  Swift: 5.0  Xcode: 11.0+  Hướng dẫn Build & Chạy (Dành cho Reviewer)Dự án sử dụng XcodeGen để sinh file .xcodeproj tự động.  Cách 1: Dùng XcodeGen (Nhanh nhất)Cài đặt XcodeGen (nếu chưa có):Bashbrew install xcodegen
-Sinh file cấu hình project:Bashxcodegen generate
-Mở PicsumPhotoApp.xcodeproj bằng Xcode.  Bấm Cmd + R để Run hoặc Cmd + U để chạy Unit Tests.  Cách 2: Import thủ công vào XcodeMở Xcode -> Create a new Xcode project -> iOS App -> Đặt tên PicsumPhotoApp.  Kéo các thư mục App, Domain, Data, Presentation, Tests vào dự án.  Nhấn Cmd + R để chạy thử.
+Picsum Photo List App (iOS)
+Ứng dụng hiển thị danh sách hình ảnh từ Picsum API. Dự án được xây dựng hoàn toàn bằng ngôn ngữ Swift (UIKit) native, tuân thủ kiến trúc Clean Architecture và không sử dụng bất kỳ thư viện thứ 3 nào.
+
+Các tính năng đã hoàn thành (Features)
+Danh sách hình ảnh (Photo List): Hiển thị ảnh, tên tác giả (Author) và kích thước (Size). Ảnh tự động điều chỉnh tỉ lệ theo kích thước gốc, đảm bảo không bị móp/biến dạng ảnh.
+Phân trang (Paging) & Load More: Mõi trang tải 100 ảnh, có hiển thị indicator "loading..." ở cuối danh sách.
+Pull to Refresh: Vuốt từ đỉnh danh sách để làm mới nội dung.
+Bộ lọc & Tìm kiếm (Search & Validation):
+Hiệu năng cao: Sử dụng NSCache để lưu ảnh tạm thời, cuộn danh sách UITableView mượt mà, không giật lag.
+Unit Testing: Kiểm thử tự động đầy đủ cho lớp SearchQueryValidator.
+
+Clean Architecture
+Dự án chia làm 3 layer:
+Domain Layer: Entities & UseCases (Business Logic)
+Data Layer: DTOs & Repositories (Networking & Caching)
+Presentation Layer: Controllers & Views (UIKit UI)
+
+
+Hướng dẫn Build & Chạy dự án (Reviewer)
+Dự án sử dụng XcodeGen để tự động tạo file cấu hình .xcodeproj chuẩn định dạng.
+
+Cách 1: Sử dụng XcodeGen (Recommend)
+Cài đặt XcodeGen qua Homebrew trên máy Mac (nếu chưa cài):
+Bash
+brew install xcodegen
+
+Mở Terminal tại thư mục gốc của project và chạy lệnh:
+xcodegen generate
+Mở file PicsumPhotoApp.xcodeproj vừa được tạo bằng Xcode.
+Bấm Cmd + R để chạy ứng dụng trên Simulator/Device hoặc bấm Cmd + U để thực thi Unit Tests.
+
+Cách 2: Import thủ công vào Xcode
+Mở Xcode -> Chọn Create a new Xcode project -> iOS App -> Đặt tên PicsumPhotoApp.
+Kéo các thư mục App, Domain, Data, Presentation, Tests từ thư mục dự án vào Xcode.
+Nhấn Cmd + R để chạy thử ứng dụng. 
