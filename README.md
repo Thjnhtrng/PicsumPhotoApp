@@ -1,4 +1,5 @@
 Picsum Photo List App (iOS)
+
 Ứng dụng hiển thị danh sách hình ảnh từ Picsum API. Dự án được xây dựng hoàn toàn bằng ngôn ngữ Swift (UIKit) native, tuân thủ kiến trúc Clean Architecture và không sử dụng bất kỳ thư viện thứ 3 nào.
 
 Các tính năng đã hoàn thành (Features)
