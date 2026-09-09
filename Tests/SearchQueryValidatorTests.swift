@@ -1,5 +1,4 @@
-﻿// Unit Test cho logic Validator
-import XCTest
+﻿import XCTest
 
 final class SearchQueryValidatorTests: XCTestCase {
     
@@ -15,8 +14,10 @@ final class SearchQueryValidatorTests: XCTestCase {
     
     func testSanitize_AccentedVietnameseAndEmoji_StripsInvalidChars() {
         let input = "Nguyễn Dương Trường Thịnh 😀"
-        // Loại bỏ dấu tiếng Việt và Emoji
-        XCTAssertEqual(SearchQueryValidator.sanitize(input: input), "Nguyn Dng Trng Thnh")
+        
+        // Ký tự có dấu (ASCII > 122) và Emoji bị lọc bỏ hoàn toàn, dấu cách được giữ nguyên
+        let expected = "Nguyn Dng Trng Thnh "
+        XCTAssertEqual(SearchQueryValidator.sanitize(input: input), expected)
     }
     
     func testSanitize_Exceeds15Characters_TruncatesLength() {
@@ -24,5 +25,11 @@ final class SearchQueryValidatorTests: XCTestCase {
         let result = SearchQueryValidator.sanitize(input: input)
         XCTAssertEqual(result.count, 15)
         XCTAssertEqual(result, "123456789012345")
+    }
+    
+    func testSanitize_DisallowedSpecialChars_RemovesInvalidOnes() {
+        let input = "Invalid<>~`"
+        // '~' và '`' có mã ASCII không nằm trong dải cho phép nên bị xóa
+        XCTAssertEqual(SearchQueryValidator.sanitize(input: input), "Invalid<>")
     }
 }

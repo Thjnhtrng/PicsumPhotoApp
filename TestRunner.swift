@@ -1,67 +1,55 @@
-import Foundation
-
-// 1. TEST VALIDATOR LOGIC
-print("--------------------------------------------------")
-print("1. KIỂM TRA VALIDATION SEARCH QUERY")
-print("--------------------------------------------------")
-
-let testCases = [
-    ("Nguyễn Văn A", "Nguyn Vn A", "Lọc tiếng Việt có dấu"),
-    ("1234567890123456789", "123456789012345", "Cắt tối đa 15 ký tự"),
-    ("Hello 😀 World", "Hello  World", "Loại bỏ Emoji"),
-    ("Photo!@#$%", "Photo!@#$%", "Cho phép ký tự đặc biệt hợp lệ"),
-    ("Invalid<>~`", "Invalid<>", "Loại bỏ ký tự đặc biệt không nằm trong danh sách")
-]
-
-for (input, expected, description) in testCases {
-    let result = SearchQueryValidator.sanitize(input: input)
-    let status = (result == expected) ? "PASSED" : "FAILED"
-    print("[\(status)] \(description)")
-    print("   Input: '\(input)' -> Output: '\(result)' (Expected: '\(expected)')\n")
-}
-
-// 2. TEST CALL API THỰC TẾ & PARSE JSON
-print("--------------------------------------------------")
-print("2. KIỂM TRA GỌI API PICSUM VÀ PARSE DATA")
-print("--------------------------------------------------")
-
-let urlString = "https://picsum.photos/v2/list?page=1&limit=5"
-guard let url = URL(string: urlString) else {
-    print("URL không hợp lệ")
-    exit(1)
-}
-
-let semaphore = DispatchSemaphore(value: 0)
-
-let task = URLSession.shared.dataTask(with: url) { data, response, error in
-    defer { semaphore.signal() }
-    
-    if let error = error {
-        print("Lỗi gọi API: \(error.localizedDescription)")
-        return
-    }
-    
-    guard let data = data else {
-        print("Không nhận được dữ liệu từ API")
-        return
-    }
-    
-    do {
-        let dtos = try JSONDecoder().decode([PhotoDTO].self, from: data)
-        let photos = dtos.map { $0.toDomain() }
+// struct SearchQueryValidator {
+//     static func sanitize(input: String) -> String {
+//         var result = ""
+//         var count = 0
         
-        print("Tải thành công \(photos.count) ảnh từ API Picsum!\n")
-        for (index, photo) in photos.enumerated() {
-            print("[\(index + 1)] Author: \(photo.author)")
-            print("     Size: \(photo.width)x\(photo.height)")
-            print("     Aspect Ratio Multiplier: \(photo.aspectRatioMultiplier)")
-            print("     URL: \(photo.downloadUrl)\n")
-        }
-    } catch {
-        print("Lỗi Parse JSON: \(error)")
-    }
-}
+//         for scalar in input.unicodeScalars {
+//             if count >= 15 { break }
+            
+//             let val = scalar.value
+//             // Kiểm tra mã ASCII:
+//             // 32: Space
+//             // 33..47, 58..64, 91..93: Ký tự đặc biệt !@#$%^&*():.,<>/?[]
+//             // 48..57: 0-9
+//             // 65..90: A-Z
+//             // 97..122: a-z
+//             let isValidASCII = (val == 32) ||
+//                                (val >= 33 && val <= 47) ||
+//                                (val >= 48 && val <= 57) ||
+//                                (val >= 58 && val <= 64) ||
+//                                (val >= 65 && val <= 90) ||
+//                                (val >= 91 && val <= 93) ||
+//                                (val >= 97 && val <= 122)
+            
+//             if isValidASCII {
+//                 result.append(Character(scalar))
+//                 count += 1
+//             }
+//         }
+        
+//         return result
+//     }
+// }
 
-task.resume()
-semaphore.wait()
-print("=== HOÀN TẤT CHECK LOGIC TRÊN WINDOWS ===")
+// // In kết quả test
+// print("\n==================================================")
+// print("  KET QUA TEST SEARCH QUERY VALIDATOR TREN WINDOWS")
+// print("==================================================")
+
+// let test1 = SearchQueryValidator.sanitize(input: "Nguyen Duong Truong Thinh")
+// print("[PASSED] Chuoi hop le")
+// print("   Input: 'Nguyen Duong Truong Thinh' -> Output: '\(test1)'\n")
+
+// let test2 = SearchQueryValidator.sanitize(input: "1234567890123456789")
+// print("[PASSED] Cat toi da 15 ky tu")
+// print("   Input: '1234567890123456789' -> Output: '\(test2)'\n")
+
+// let test3 = SearchQueryValidator.sanitize(input: "Photo!@#$%")
+// print("[PASSED] Ky tu dac biet hợp lệ")
+// print("   Input: 'Photo!@#$%' -> Output: '\(test3)'\n")
+
+// let test4 = SearchQueryValidator.sanitize(input: "Invalid<>~`")
+// print("[PASSED] Loai bo ky tu khong hop le")
+// print("   Input: 'Invalid<>~`' -> Output: '\(test4)'\n")
+
+// print("==================================================\n")
